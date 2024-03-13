@@ -1,8 +1,9 @@
 /**
- * @file  errno.h
- * @brief System error numbers
+ * @file    errno.h
+ * @brief   System error numbers
+ * @author  Geronimo Freese
  *
- *        Implemented after IEEE Std 1003.1-2017 (POSIX Specification)
+ *          Implemented after IEEE Std 1003.1-2017 (POSIX Specification)
  */
 
 #ifndef ERRNO_H
@@ -147,5 +148,9 @@ int *__errno(void);
 #define ENOTRECOVERABLE 131 // State not recoverable
 #define ERFKILL 132         // Operation not possible due to RF-kill
 #define EHWPOISON 133       // Memory page has hardware error
+
+
+
+
 
 #endif
