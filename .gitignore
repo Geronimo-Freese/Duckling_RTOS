@@ -1,4 +1,4 @@
 bin/
 obj/
 debug/
-test.c
+test/

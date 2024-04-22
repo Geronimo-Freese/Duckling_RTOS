@@ -4,13 +4,11 @@
  *        specific architecures
  */
 
-#ifndef PORTS_H
-#define PORTS_H
+#ifndef _PORTS_H
+#define _PORTS_H
 
-#ifdef ARM
-  #ifdef CORTEX_M4
-  #define PORT_INCLUDE #include "arch/arm/cortex_m4/port.h"
-  #endif
+#ifdef __CORTEX_M4
+#include "arm/cortex_m4/port.h"
 #endif
 
 #endif

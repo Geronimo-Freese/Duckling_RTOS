@@ -6,8 +6,8 @@
  *          Implemented after IEEE Std 1003.1-2017 (POSIX Specification)
  */
 
-#ifndef ERRNO_H
-#define ERRNO_H
+#ifndef _ERRNO_H
+#define _ERRNO_H
 
 #ifndef errno
 int *__errno(void);
