@@ -1,4 +1,3 @@
-//Not yet implemented
 /**
  * @file    errno.h
  * @brief   System error numbers
