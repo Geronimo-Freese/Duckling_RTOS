@@ -17,11 +17,13 @@
 extern int errno;
 unsigned int const MAX_LLIST_ITEMS = 100;
 
-
 struct llist_node {
   struct llist_node *prev;
   struct llist_node *next;
 };
+
+#define llist_obj(ptr, obj_type)                                               \
+  ({(void *)(ptr - (sizeof(obj_type) - sizeof(llist_node)))})
 
 bool lst_add(struct llist_node *head, struct llist_node *node) {
 
@@ -29,13 +31,13 @@ bool lst_add(struct llist_node *head, struct llist_node *node) {
   unsigned int iteration_guard;
 
   // Check for NULL-pointer
-  if(!head || !node || !head->next){
+  if (!head || !node || !head->next) {
     errno = EFAULT;
     return false;
   }
 
-  while(temp->next != head){
-    if(iteration_guard > MAX_LLIST_ITEMS){
+  while (temp->next != head) {
+    if (iteration_guard > MAX_LLIST_ITEMS) {
       errno = ELNRNG;
       return false;
     }
