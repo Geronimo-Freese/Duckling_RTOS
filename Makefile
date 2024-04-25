@@ -1,68 +1,72 @@
-# TODO: figure out a way to make Makefile arch-specific.
-# 	-> maybe sub-Makefiles in the arch/[arch] dir?
+# #
+#
+# Main Makefile for Duckling_RTOS project
+#
+# @author Geronimo Freese
+#
+# #
 
-# tool macros
-CC_PREFIX :=
-# arm-none-eabi-
-CC := gcc
-CXX := g++
-CFLAGS :=
-# -mcpu=cortex-m4
-# -pedantic -Wall -Wextra -Wconversion -Wunreachable-code -Wswitch-default -Wswitch-enum
-CXXFLAGS :=
-# -pedantic -Wall -Wextra -Wconversion -Wunreachable-code -Wswitch-default -Wswitch-enum
-DBGFLAGS := -g
-COBJFLAGS := $(CFLAGS) -c
+PROJECT_NAME = "Duckling"
 
-# path macros
-BIN_PATH := bin
-OBJ_PATH := obj
-SRC_PATH := .
-ARCH_PATH := ./arch/arm/cortex_m4
-DBG_PATH := debug
+# Compiler
+CC_PREFIX = arm-none-eabi-
+CC = gcc
+CFLAGS = -Wall -std=c99 -mcpu=cortex-m4 -mthumb -nostdlib -nolibc
+C_OBJ_FLAGS = $(CFLAGS) -c
+C_DEBUG_FLAGS = -g
 
-# run macros
-args ?=
+# Linker
+LD_PREFIX = arm-none-eabi-
+LD = gcc
+LDFLAGS = -mcpu=cortex-m4 -mthumb
 
-# compile macros
-TARGET_NAME := Duckling_RTOS
+# Directories
+SRC_DIR 		:=	src
+INC_DIR 		:= 	include
+OBJ_DIR 		:= 	obj
+DEBUG_DIR 	:= 	debug
+BUILD_DIR 	:= 	build
+BIN_DIR 		:= 	bin
 
-TARGET := $(BIN_PATH)/$(TARGET_NAME)
-TARGET_DEBUG := $(DBG_PATH)/$(TARGET_NAME)
 
-# src files & obj files
-SRC := $(foreach x, $(SRC_PATH), $(wildcard $(addprefix $(x)/*,.c*)))
-ARCH := $(foreach x, $(ARCH_PATH), $(wildcard $(addprefix $(x)/*,.c*)))
-OBJ := $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
-OBJ_DEBUG := $(addprefix $(DBG_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
+# Files
+SRC := $(shell find $(SRC_DIR) -name "*.c")
+INC := $(shell find $(INC_DIR) -name "*.h")
+OBJ := $(addprefix $(OBJ_DIR)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
+OBJ_DEBUG := $(addprefix $(DEBUG_DIR)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
+
+TARGET = $(BIN_DIR)/$(PROJECT_NAME).elf
+TARGET_DEBUG = $(DEBUG_DIR)/$(PROJECT_NAME).elf
+
 
 # clean files list
 DISTCLEAN_LIST := $(OBJ) \
                   $(OBJ_DEBUG)
 CLEAN_LIST := $(TARGET) \
-			  $(TARGET_DEBUG) \
-			  $(DISTCLEAN_LIST)
+			  			$(TARGET_DEBUG) \
+			  			$(DISTCLEAN_LIST)
 
 # default rule
 default: makedir all
 
 # non-phony targets
 $(TARGET): $(OBJ)
-	$(CC) -o $@ $(OBJ) $(CFLAGS)
+	$(LD_PREFIX)$(LD) $(LDFLAGS) -o $@ $^
 
-$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c*
-	$(CC_PREFIX)$(CC) $(COBJFLAGS) -o $@ $<
+$(OBJ): $(SRC)
+	$(CC_PREFIX)$(CC) $(C_OBJ_FLAGS) -o $@ $<
 
-$(DBG_PATH)/%.o: $(SRC_PATH)/%.c*
-	$(CC_PREFIX)$(CC) $(COBJFLAGS) $(DBGFLAGS) -o $@ $<
+$(DEBUG_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC_PREFIX)$(CC) $(C_OBJ_FLAGS) $(C_DEBUG_FLAGS) -o $@ $<
 
 $(TARGET_DEBUG): $(OBJ_DEBUG)
-	$(CC_PREFIX)$(CC) $(CFLAGS) $(DBGFLAGS) $(OBJ_DEBUG) -o $@
+	$(CC_PREFIX)$(CC) $(CFLAGS) $(C_DEBUG_FLAGS) $(OBJ_DEBUG) -o $@
+
 
 # phony rules
 .PHONY: makedir
 makedir:
-	@mkdir -p $(BIN_PATH) $(OBJ_PATH) $(DBG_PATH)
+	@mkdir -p $(BIN_DIR) $(OBJ_DIR) $(DEBUG_DIR)
 
 .PHONY: all
 all: $(TARGET)
@@ -80,5 +84,6 @@ distclean:
 	@echo CLEAN $(DISTCLEAN_LIST)
 	@rm -f $(DISTCLEAN_LIST)
 
-run:
-	$(TARGET) $(args)
+
+debug_make:
+	echo $(SRC_DIR)/*.c
