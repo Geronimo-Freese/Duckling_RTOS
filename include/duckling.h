@@ -10,7 +10,7 @@
 #define _RTOS_H
 
 #include "kernel.h"
-#include "sys/errno.h"
+#include "lib/errno.h"
 
 /**
  * @brief   adds a task to the OS for scheduling
@@ -19,14 +19,6 @@
  * @return  status of the action
  */
 K_STATUS os_create_process(function_ptr func);
-
-/**
- * @brief
- *
- * @param func
- * @return
- */
-K_STATUS os_add_process(function_ptr func);
 
 
 

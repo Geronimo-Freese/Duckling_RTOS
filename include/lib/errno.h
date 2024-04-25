@@ -1,4 +1,3 @@
-//Not yet implemented
 /**
  * @file    errno.h
  * @brief   System error numbers
@@ -149,9 +148,5 @@ int *__errno(void);
 #define ENOTRECOVERABLE 131 // State not recoverable
 #define ERFKILL 132         // Operation not possible due to RF-kill
 #define EHWPOISON 133       // Memory page has hardware error
-
-
-
-
 
 #endif

@@ -11,8 +11,8 @@
 #ifndef LLIST_H
 #define LLIST_H
 
-#include "../lib/errno.h"
-#include "../lib/stdbool.h"
+#include "lib/errno.h"
+#include "lib/stdbool.h"
 
 extern int errno;
 unsigned int const MAX_LLIST_ITEMS = 100;
@@ -38,7 +38,7 @@ bool lst_add(struct llist_node *head, struct llist_node *node) {
 
   while (temp->next != head) {
     if (iteration_guard > MAX_LLIST_ITEMS) {
-      errno = ELNRNG;
+      errno = EFAULT;
       return false;
     }
     iteration_guard++;

@@ -7,7 +7,7 @@
 #ifndef _PORTS_H
 #define _PORTS_H
 
-#ifdef __CORTEX_M4
+#ifdef CORTEX_M4
 #include "arm/cortex_m4/port.h"
 #endif
 

@@ -6,13 +6,13 @@
 #
 # #
 
-PROJECT_NAME = "Duckling"
+PROJECT_NAME = Duckling
 
 # Compiler
 CC_PREFIX = arm-none-eabi-
 CC = gcc
 CFLAGS = -Wall -std=c99 -mcpu=cortex-m4 -mthumb -nostdlib -nolibc
-C_OBJ_FLAGS = $(CFLAGS) -c
+C_OBJ_FLAGS = $(CFLAGS)
 C_DEBUG_FLAGS = -g
 
 # Linker
@@ -51,12 +51,12 @@ default: makedir all
 
 # non-phony targets
 $(TARGET): $(OBJ)
-	$(LD_PREFIX)$(LD) $(LDFLAGS) -o $@ $^
+	$(LD_PREFIX)$(LD) $(LDFLAGS) -I$(INC_DIR) $^ -o $@
 
-$(OBJ): $(SRC)
-	$(CC_PREFIX)$(CC) $(C_OBJ_FLAGS) -o $@ $<
+$(OBJ_DIR)/%.o: $(filter %.c, $(SRC))
+	$(CC_PREFIX)$(CC) $(C_OBJ_FLAGS) -I$(INC_DIR) -c $< -o $@
 
-$(DEBUG_DIR)/%.o: $(SRC_DIR)/%.c
+$(OBJ_DEBUG)/: $(SRC)
 	$(CC_PREFIX)$(CC) $(C_OBJ_FLAGS) $(C_DEBUG_FLAGS) -o $@ $<
 
 $(TARGET_DEBUG): $(OBJ_DEBUG)
@@ -86,4 +86,4 @@ distclean:
 
 
 debug_make:
-	echo $(SRC_DIR)/*.c
+	@echo $(OBJ)

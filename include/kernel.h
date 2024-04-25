@@ -6,9 +6,9 @@
 #ifndef _KERNEL_H
 #define _KERNEL_H
 
-#include "../sys/stdbool.h"
+#include "arch/ports.h"
 #include "config.h"
-#include "../arch/ports.h"
+#include "lib/stdbool.h"
 
 typedef enum K_STATUS { K_SUCCESFUL = true, K_FAILURE = false } K_STATUS;
 
@@ -38,7 +38,6 @@ typedef enum PROCESS_PRIORITY {
   PRIORITY_HIGH = 2,
 } PROCESS_PRIORITY;
 
-
 /**
  * @typedef   pcb_t
  * @brief     Process Control Block that stores all information about a process
@@ -47,7 +46,6 @@ typedef enum PROCESS_PRIORITY {
  */
 typedef struct pcb_t pcb_t;
 struct pcb_t {
-  registers r;
   pcb_t *prev_pcb;
   pcb_t *next_pcb;
   function_ptr function;
