@@ -34,6 +34,8 @@ SRC := $(shell find $(SRC_DIR) -name "*.c")
 INC := $(shell find $(INC_DIR) -name "*.h")
 OBJ := $(addprefix $(OBJ_DIR)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 OBJ_DEBUG := $(addprefix $(DEBUG_DIR)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
+vpath %.c $(SRC_DIR)
+
 
 TARGET = $(BIN_DIR)/$(PROJECT_NAME).elf
 TARGET_DEBUG = $(DEBUG_DIR)/$(PROJECT_NAME).elf
@@ -53,7 +55,13 @@ default: makedir all
 $(TARGET): $(OBJ)
 	$(LD_PREFIX)$(LD) $(LDFLAGS) -I$(INC_DIR) $^ -o $@
 
-$(OBJ_DIR)/%.o: $(filter %.c, $(SRC))
+
+#
+#
+#	THIS IS THE PROBLEM SPOT
+#
+#
+$(OBJ): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c #$(filter %.c, $(SRC))
 	$(CC_PREFIX)$(CC) $(C_OBJ_FLAGS) -I$(INC_DIR) -c $< -o $@
 
 $(OBJ_DEBUG)/: $(SRC)
