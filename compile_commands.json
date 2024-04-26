@@ -1,0 +1,56 @@
+[
+ {
+  "directory": "/home/geronimo/Data/Workspace/Software/Duckling_RTOS",
+  "arguments": [
+   "arm-none-eabi-gcc",
+   "-Wall",
+   "-std=c99",
+   "-mcpu=cortex-m4",
+   "-mthumb",
+   "-nostdlib",
+   "-nolibc",
+   "-Iinclude",
+   "-c",
+   "syscalls.c",
+   "-o",
+   "obj/syscalls.o"
+  ],
+  "file": "syscalls.c"
+ },
+ {
+  "directory": "/home/geronimo/Data/Workspace/Software/Duckling_RTOS",
+  "arguments": [
+   "arm-none-eabi-gcc",
+   "-Wall",
+   "-std=c99",
+   "-mcpu=cortex-m4",
+   "-mthumb",
+   "-nostdlib",
+   "-nolibc",
+   "-Iinclude",
+   "-c",
+   "duckling.c",
+   "-o",
+   "obj/duckling.o"
+  ],
+  "file": "duckling.c"
+ },
+ {
+  "directory": "/home/geronimo/Data/Workspace/Software/Duckling_RTOS",
+  "arguments": [
+   "arm-none-eabi-gcc",
+   "-Wall",
+   "-std=c99",
+   "-mcpu=cortex-m4",
+   "-mthumb",
+   "-nostdlib",
+   "-nolibc",
+   "-Iinclude",
+   "-c",
+   "kernel.c",
+   "-o",
+   "obj/kernel.o"
+  ],
+  "file": "kernel.c"
+ }
+]

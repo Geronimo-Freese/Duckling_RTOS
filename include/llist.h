@@ -28,7 +28,7 @@ struct llist_node {
 bool lst_add(struct llist_node *head, struct llist_node *node) {
 
   struct llist_node *temp = head;
-  unsigned int iteration_guard;
+  unsigned int iteration_guard = 0;
 
   // Check for NULL-pointer
   if (!head || !node || !head->next) {

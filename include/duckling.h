@@ -37,9 +37,9 @@ void os_add_process(function_ptr function, PROCESS_PRIORITY priority);
  *        sets up all related information so the
  *        scheduler can start giving processes ressources
  *
- * @return Kernel status regarding this action
+* @return Kernel status regarding this action
  */
-void os_start();
+void os_start(void);
 
 /**
  * @brief Calling Task will give up execution time so
@@ -47,7 +47,7 @@ void os_start();
  *
  * @return Kernel status regarding this action
  */
-void os_yield();
+void os_yield(void);
 
 /**
  * @brief Enters a critical region which may not
@@ -56,7 +56,7 @@ void os_yield();
  *
  * @return Kernel status regarding this action
  */
-void enter_critical();
+void enter_critical(void);
 
 /**
  * @brief Exits a critical region so the scheduler
@@ -64,7 +64,7 @@ void enter_critical();
  *
  * @return Kernel status regarding this action
  */
-void exit_critical();
+void exit_critical(void);
 
 
 #endif

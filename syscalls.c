@@ -1,5 +1,4 @@
-#include "syscalls.h"
+#include "include/syscalls.h"
 
 void _exit(void){
-  return;
 }
