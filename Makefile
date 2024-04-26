@@ -33,8 +33,8 @@ BIN_DIR 		:= 	bin
 SRC := $(shell find $(SRC_DIR) -name "*.c")
 INC := $(shell find $(INC_DIR) -name "*.h")
 OBJ := $(addprefix $(OBJ_DIR)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
+SRC_OBJ := $(dir $(SRC))
 OBJ_DEBUG := $(addprefix $(DEBUG_DIR)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
-vpath %.c $(SRC_DIR)
 
 
 TARGET = $(BIN_DIR)/$(PROJECT_NAME).elf
@@ -61,8 +61,9 @@ $(TARGET): $(OBJ)
 #	THIS IS THE PROBLEM SPOT
 #
 #
-$(OBJ): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c #$(filter %.c, $(SRC))
-	$(CC_PREFIX)$(CC) $(C_OBJ_FLAGS) -I$(INC_DIR) -c $< -o $@
+$(OBJ):
+	$(CC_PREFIX)$(CC) $(C_OBJ_FLAGS) -I$(INC_DIR) -c $(SRC)
+	$(shell find . -name "*.o" | xargs -I{} mv {} $(OBJ_DIR)/)
 
 $(OBJ_DEBUG)/: $(SRC)
 	$(CC_PREFIX)$(CC) $(C_OBJ_FLAGS) $(C_DEBUG_FLAGS) -o $@ $<
