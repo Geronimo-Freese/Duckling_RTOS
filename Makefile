@@ -21,11 +21,10 @@ LD = gcc
 LDFLAGS = -mcpu=cortex-m4 -mthumb
 
 # Directories
-SRC_DIR 		:=	src
+SRC_DIR 		:=	.
 INC_DIR 		:= 	include
 OBJ_DIR 		:= 	obj
 DEBUG_DIR 	:= 	debug
-BUILD_DIR 	:= 	build
 BIN_DIR 		:= 	bin
 
 
@@ -33,7 +32,6 @@ BIN_DIR 		:= 	bin
 SRC := $(shell find $(SRC_DIR) -name "*.c")
 INC := $(shell find $(INC_DIR) -name "*.h")
 OBJ := $(addprefix $(OBJ_DIR)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
-SRC_OBJ := $(dir $(SRC))
 OBJ_DEBUG := $(addprefix $(DEBUG_DIR)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 
 
@@ -52,24 +50,20 @@ CLEAN_LIST := $(TARGET) \
 default: makedir all
 
 # non-phony targets
+
+# Compilation
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC_PREFIX)$(CC) $(C_OBJ_FLAGS) -I$(INC_DIR) -c $< -o $@
+
+$(DEBUG_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC_PREFIX)$(CC) $(C_OBJ_FLAGS) $(C_DEBUG_FLAGS) -I$(INC_DIR) -c $< -o $@
+
+# Linking
 $(TARGET): $(OBJ)
 	$(LD_PREFIX)$(LD) $(LDFLAGS) -I$(INC_DIR) $^ -o $@
 
-
-#
-#
-#	THIS IS THE PROBLEM SPOT
-#
-#
-$(OBJ):
-	$(CC_PREFIX)$(CC) $(C_OBJ_FLAGS) -I$(INC_DIR) -c $(SRC)
-	$(shell find . -name "*.o" | xargs -I{} mv {} $(OBJ_DIR)/)
-
-$(OBJ_DEBUG)/: $(SRC)
-	$(CC_PREFIX)$(CC) $(C_OBJ_FLAGS) $(C_DEBUG_FLAGS) -o $@ $<
-
 $(TARGET_DEBUG): $(OBJ_DEBUG)
-	$(CC_PREFIX)$(CC) $(CFLAGS) $(C_DEBUG_FLAGS) $(OBJ_DEBUG) -o $@
+	$(LD_PREFIX)$(LD) $(LDFLAGS) $(C_DEBUG_FLAGS) -I$(INC_DIR) $^ -o $@
 
 
 # phony rules
